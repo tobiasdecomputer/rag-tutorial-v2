@@ -1,5 +1,8 @@
 pypdf
 langchain
+langchain-community
+langchain-ollama
+langchain-chroma
 chromadb # Vector storage
 pytest
-boto3
+boto3 #for aws bedrock
