@@ -1,5 +1,6 @@
 from query_data import query_rag
-from langchain_community.llms.ollama import Ollama
+#from langchain_community.llms.ollama import Ollama
+from langchain_ollama import OllamaLLM
 
 EVAL_PROMPT = """
 Expected Response: {expected_response}
@@ -23,13 +24,20 @@ def test_ticket_to_ride_rules():
     )
 
 
+def test_ticket_to_ride_rules():
+    assert query_and_validate(
+        question="Can double routes be used in a 2 player Ticket to Ride game?",
+        expected_response="In 2 or 3 player games, only one of the Double-Routes can be used.",
+    )
+
+
 def query_and_validate(question: str, expected_response: str):
     response_text = query_rag(question)
     prompt = EVAL_PROMPT.format(
         expected_response=expected_response, actual_response=response_text
     )
 
-    model = Ollama(model="mistral")
+    model = OllamaLLM(model="mistral")
     evaluation_results_str = model.invoke(prompt)
     evaluation_results_str_cleaned = evaluation_results_str.strip().lower()
 
